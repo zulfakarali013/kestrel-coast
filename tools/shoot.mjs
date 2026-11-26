@@ -28,7 +28,7 @@ for (const [file, pose] of shots) {
   await page.waitForFunction(() => window.__shotReady === true, null, { timeout: 120000 });
   await page.waitForTimeout(300);
   let q = 88, buf;
-  do { buf = await page.screenshot({ type: 'jpeg', quality: q }); q -= 6; } while (buf.length > 250000 && q > 30);
+  do { buf = await page.screenshot({ type: 'jpeg', quality: q, timeout: 120000 }); q -= 6; } while (buf.length > 250000 && q > 30);
   writeFileSync(join(outDir, file + '.b64'), buf.toString('base64')); // one line, decoded by main.ts
   if (process.env.SHOTS_RAW) writeFileSync(join(process.env.SHOTS_RAW, file), buf);
   console.log(file, buf.length, 'bytes, quality', q + 6);

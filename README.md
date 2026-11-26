@@ -21,6 +21,9 @@ with three airfields, in eight sorties with different goals:
 Fuel burns with throttle; damage from hard landings, overspeed and over-g leaks fuel and shows as smoke.
 Touchdowns are graded on sink rate, centreline, touchdown zone and bank ("Greaser" to "Hard landing"),
 and crashes say what happened (sink rate, wingtip strike, ditching, hillside).
+A pilot's logbook beside every debrief lists all eight sorties with best stars, flights flown and how the
+last try ended (a crash keeps its cause, e.g. "✗ Hit the hillside at 92 kt · 1:58"), plus what to fly next;
+the mission board shows the last failed try on each card.
 
 While you fly, the game reacts: badges call out what just happened (CLEAN RING 3, EDGE OF RING · 4 M SPARE,
 NEAR STALL · NOSE DOWN, GUST +7 KT, FUEL TIGHT FOR GUL, ON SLOPE · 3.0°, GREASED IT, BOUNCE · HOLD THE FLARE),
@@ -131,14 +134,17 @@ from `game/vendor/three.module.min.js` through an import map. Sounds are synthes
 | `src/shots/pose-cockpit.js` | Cockpit pose: High Meadow Supply on short final, flaps 30, gusty crosswind, on the 3° slope to runway 14. |
 | `src/shots/pose-cover.js` | Cover pose: First Light, four rings flown, on the 3° slope 180 m behind the final gate with runway 07 ahead. |
 | `src/shots/pose-helpers.js` | Helpers every screenshot pose shares: write the rings already flown into a sortie, and point the aircraft. |
-| `src/shots/pose-landing.js` | Landing pose: Lighthouse Mail flown and landed at Gull Island — the plane on the runway, the debrief beside it. |
+| `src/shots/pose-landing.js` | Landing pose: Lighthouse Mail flown and landed at Gull Island — the plane on the runway, the debrief and logbook beside it. |
+| `src/shots/pose-logbook.js` | Logbook pose state: a pilot part-way through the island — some sorties won, two crashes on record, three still to fly. |
 | `src/shots/pose-ridge.js` | Ridge pose: Ridge Run, eight rings flown, running down off the ridges toward ring 9 (Home gate) with the east coast ahead. |
 | `src/shots/poses.js` | Screenshot poses: ?shot=board\|cover\|cockpit\|ridge\|landing puts the game in a fixed moment so the maker's |
 | `src/sky/clouds.js` | Clusters of soft cloud puffs at 900 to 1,400 m. |
 | `src/sky/sky-dome.js` | Sky dome with the low sun, haze and the hemisphere and sun lights. |
 | `src/ui/best-scores.js` | Best score and stars per sortie, kept in the browser. |
-| `src/ui/debrief.js` | The debrief after a sortie: what happened, the touchdown, the flight log, the score breakdown and stars. |
-| `src/ui/mission-board.js` | The mission board: pick a sortie and see its goal, fuel, weather and best score. |
+| `src/ui/debrief.js` | The debrief after a sortie: what happened, the touchdown, the flight log, the score breakdown and stars, beside the logbook. |
+| `src/ui/logbook-panel.js` | The logbook card beside the debrief: every sortie with its best stars, how the last flight ended, and what to fly next. |
+| `src/ui/logbook-store.js` | The pilot's logbook, kept in the browser: how often each sortie was flown and how the last flight ended. |
+| `src/ui/mission-board.js` | The mission board: pick a sortie and see its goal, fuel, weather, best score and how the last try ended. |
 | `src/ui/touchdown-chart.js` | A small drawing of the runway seen from above, with the touchdown zone and where the wheels met it. |
 | `src/view/camera-rig.js` | The three camera views and switching between them. |
 | `src/view/follow-camera.js` | Moves the camera each frame: a lagging chase view, the cockpit eye, or the tower. |

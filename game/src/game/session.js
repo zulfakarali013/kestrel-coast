@@ -42,6 +42,7 @@ export function openBoard() {
 }
 
 export function endSortie() {
+  if (game.state !== 'ending') return; // once per sortie, and never after a quick FLY AGAIN
   game.state = 'debrief';
   if (document.pointerLockElement) document.exitPointerLock();
   showDebrief(ui.debrief, game.sortie, game.flight, () => startSortie(game.missionId), openBoard);

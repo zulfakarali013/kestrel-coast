@@ -1,4 +1,4 @@
-// Landing pose: Lighthouse Mail flown and landed at Gull Island — the plane on the runway, the debrief beside it.
+// Landing pose: Lighthouse Mail flown and landed at Gull Island — the plane on the runway, the debrief and logbook beside it.
 import { airfieldById } from '../airfields/fields.js';
 import { fromRunway } from '../airfields/runway-frame.js';
 import { placeOnRunway } from '../flight/state.js';
@@ -7,6 +7,7 @@ import { finish } from '../mission/scoring.js';
 import { burst } from '../fx/bursts.js';
 import { endSortie } from '../game/session.js';
 import { flown } from './pose-helpers.js';
+import { seedLogbook } from './pose-logbook.js';
 
 export function landingPose(game, startSortie, run) {
   startSortie('ferry');
@@ -26,6 +27,7 @@ export function landingPose(game, startSortie, run) {
   run(20);
   burst(game.fx, game.flight.pos, 'dust');
   game.state = 'ending';
+  seedLogbook();
   endSortie();
   run(8);
 }

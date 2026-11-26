@@ -1,9 +1,11 @@
-// The debrief after a sortie: what happened, the touchdown, the flight log, the score breakdown and stars.
+// The debrief after a sortie: what happened, the touchdown, the flight log, the score breakdown and stars, beside the logbook.
 import { describeTouchdown } from '../mission/landing-grade.js';
 import { landingField } from '../mission/missions.js';
 import { saveBest, starText } from './best-scores.js';
 import { touchdownChart } from './touchdown-chart.js';
 import { touchdownWord } from '../feedback/touchdown-reactions.js';
+import { recordFlight } from './logbook-store.js';
+import { logbookPanel } from './logbook-panel.js';
 
 const clock = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
@@ -22,9 +24,10 @@ export function showDebrief(el, sortie, flight, onRetry, onBoard) {
       <tr><td>Landing ×4</td><td>${b.landPts}</td></tr>${b.lowPts ? `<tr><td>Low flying</td><td>${b.lowPts}</td></tr>` : ''}
       <tr class="total"><td>Score</td><td>${sortie.score}</td></tr></table>` : '';
   if (ok) saveBest(sortie.mission.id, sortie.score, sortie.stars);
+  const book = recordFlight(sortie.mission.id, { ok, reason: sortie.reason, time: sortie.time, score: sortie.score, stars: sortie.stars });
   const log = sortie.log.slice(-6).map((l) => `<li><span>${clock(l.t)}</span>${l.text}</li>`).join('');
   el.classList.add('side');
-  el.innerHTML = `
+  el.innerHTML = `${logbookPanel(book, sortie.mission.id)}
     <div class="report">
       <h2 class="${ok ? 'ok' : 'bad'}">${ok ? 'SORTIE COMPLETE' : 'SORTIE FAILED'}</h2>
       <div class="why">${sortie.mission.name}: ${sortie.reason}</div>

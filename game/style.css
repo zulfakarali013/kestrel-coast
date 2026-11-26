@@ -41,3 +41,14 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0b1420; fon
 .calls { display: flex; gap: 6px; flex-wrap: wrap; margin: -6px 0 12px; }
 .call { font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; border: 1.2px solid currentColor; background: rgba(8, 14, 20, 0.75); }
 .call.good { color: #9dffb0; } .call.caution { color: #ffc45a; } .call.danger { color: #ff5a48; } .call.info { color: #e8f4ff; }
+.logbook { position: absolute; left: 24px; top: 20px; width: 392px; box-sizing: border-box; background: rgba(8, 14, 20, 0.84); border: 1.5px solid rgba(255, 196, 90, 0.85); border-radius: 8px; padding: 0 0 10px; overflow: hidden; }
+.logbook h4 { margin: 0 0 6px; padding: 6px 12px; font-size: 11.5px; letter-spacing: 1.2px; color: #ffc45a; background: rgba(255, 196, 90, 0.16); }
+.logbook ol { list-style: none; margin: 0; padding: 0 12px; font-size: 13px; }
+.logbook li { display: grid; grid-template-columns: 18px 1fr auto; column-gap: 6px; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(255, 196, 90, 0.14); }
+.logbook li b { color: #ffd98a; } .logbook .nm { color: #f3ead8; } .logbook .st { color: #ffd98a; letter-spacing: 1px; text-align: right; }
+.logbook .res { grid-column: 2 / 4; font-size: 11.5px; color: rgba(232, 244, 255, 0.55); }
+.logbook .res.ok { color: #9dffb0; } .logbook .res.bad { color: #ff8a6a; }
+.logbook li.todo .nm { color: rgba(232, 244, 255, 0.55); }
+.logbook li.here { background: rgba(157, 255, 176, 0.08); box-shadow: inset 3px 0 0 #9dffb0; padding-left: 4px; }
+.logbook .next { margin: 8px 12px 0; font-size: 12px; color: #d9e6ef; line-height: 1.35; } .logbook .next b { color: #ffc45a; }
+.card .last { margin-top: 2px; font-size: 11.5px; color: #ff8a6a; }

@@ -29,6 +29,6 @@ export function stepGame(dt) {
   if (s.justMissed) { flash(game.hud, `RING ${s.next} MISSED`, '#ff5a48', 1.6); s.justMissed = 0; }
   if (!hadLanding && s.landing) { burst(game.fx, f.pos, 'dust'); flash(game.hud, `${describeTouchdown(s.landing).toUpperCase()} · ${s.landing.sinkFpm} FT/MIN`, '#ffe9a8', 2.5); }
   if (f.crashed && before === 'flying') { burst(game.fx, f.pos, 'crash'); chime(game.audio, false); game.rig.shake = 2.5; flash(game.hud, f.crashReason.toUpperCase(), '#ff5a48', 3); }
-  if (s.status !== 'flying') { game.state = 'ending'; setTimeout(endSortie, f.crashed ? 2200 : 900); }
+  if (s.status !== 'flying' && game.state === 'flying') { game.state = 'ending'; setTimeout(endSortie, f.crashed ? 2200 : 900); }
   return controls;
 }
