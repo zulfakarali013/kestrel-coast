@@ -8,6 +8,7 @@ import { createSortie, disposeSortie } from '../mission/rings.js';
 import { flash } from '../hud/hud.js';
 import { showMenu, hide } from '../ui/mission-board.js';
 import { showDebrief } from '../ui/debrief.js';
+import { createFeed } from '../feedback/reaction-feed.js';
 
 export function startSortie(id) {
   const m = missionById(id);
@@ -22,6 +23,7 @@ export function startSortie(id) {
   game.input.throttle = f.throttle;
   game.flapStep = 0;
   game.sortie = createSortie(m, world.scene);
+  game.feed = createFeed();
   const dest = landingField(m);
   game.rig.tower = dest ? new THREE.Vector3(dest.x + 140, dest.elev + 30, dest.z + 60) : null;
   game.rig.first = true;

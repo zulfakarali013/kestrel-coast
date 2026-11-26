@@ -1,15 +1,8 @@
 // The sortie written out as a checklist: what is done, what was missed, what is next.
 import { landingField } from './missions.js';
 
-const RING_NAMES = {
-  circuit: ['Upwind', 'Crosswind', 'Downwind', 'Downwind turn', 'Final'],
-  ferry: ['Harbour light', 'Gull Sound'],
-  ridge: ['Valley gate', 'West col', 'Pine gorge', 'Saddle', 'High pass', 'Twin rocks', 'Eagle notch', 'Ridge drop', 'Home gate'],
-  meadow: ['Clinic approach'],
-};
-
 export function ringName(mission, i) {
-  return (RING_NAMES[mission.id] || [])[i] || '';
+  return (mission.ringNames || [])[i] || '';
 }
 
 function ringResult(sortie, i) {

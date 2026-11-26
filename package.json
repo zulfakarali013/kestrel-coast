@@ -2,7 +2,7 @@
   "name": "kestrel-coast",
   "private": true,
   "type": "module",
-  "description": "An original browser flight game: four sorties over one island.",
+  "description": "An original browser flight game: eight sorties over one island.",
   "scripts": { "play": "node serve.ts", "shots": "node tools/shoot.mjs", "test": "node tools/flight-test.mjs" },
   "devDependencies": { "playwright": "^1.49.0" }
 }

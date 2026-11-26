@@ -17,6 +17,9 @@ import { systemBars } from './system-bars.js';
 import { tapeReadouts } from './tape-readouts.js';
 import { drawWarnings } from './warnings.js';
 import { drawCallouts } from './callouts.js';
+import { pilotCard } from './pilot-card.js';
+import { legendPanel } from './legend-panel.js';
+import { worldTags } from './world-tags.js';
 
 export { flash } from './callouts.js';
 export { paintCoast } from './minimap.js';
@@ -46,6 +49,7 @@ export function drawHud(hud, flight, sortie, view, dt, extra) {
   const fpa = flight.vel.length() > 3 ? Math.asin(flight.vel.y / flight.vel.length()) : pitch;
 
   if (cockpit) cockpitPanel(g, w, h, flight);
+  if (extra.tags) worldTags(g, extra.tags);
   pitchLadder(g, cx, cy, pitch, bank, pitch - fpa);
   const slow = kt < AIRCRAFT.stallSpeed * MS_TO_KT * 1.1;
   tape(g, cx - 330, cy, 300, kt, 5, 20, 'KT', -1, slow ? RED : GREEN);
@@ -60,7 +64,9 @@ export function drawHud(hud, flight, sortie, view, dt, extra) {
   }
 
   if (sortie) {
-    sortiePanel(g, 20, 20, sortie, extra.objective);
+    const sh = sortiePanel(g, 20, 20, sortie, extra.objective);
+    if (extra.pilot) pilotCard(g, 20, 30 + sh, extra.pilot, extra.reactions || []);
+    if (!cockpit && extra.legend) legendPanel(g, w - 280, 206);
     aircraftPanel(g, w - 280, 20, flight, extra.target);
     const field = landingField(sortie.mission);
     if (sortie.next >= sortie.rings.length || sortie.next === sortie.rings.length - 1) cockpit ? approachGuide(g, w - 150, 216, flight, field) : approachGuide(g, cx, h - 140, flight, field);

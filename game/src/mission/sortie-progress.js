@@ -21,6 +21,7 @@ export function updateSortie(s, flight, dt) {
     if (prev !== null && prev < 0 && side >= 0 && d < ring.radius * 4) {
       const advance = (ok) => {
         s.log.push({ t: s.time, text: `Ring ${s.next + 1} ${ok ? 'clean' : 'missed'}` });
+        s.lastPass = { ok, d, radius: ring.radius, index: s.next };
         s.meshes[s.next].material = ringMatDone;
         s.next++;
         s.closest = Infinity;

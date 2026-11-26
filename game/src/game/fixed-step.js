@@ -8,6 +8,9 @@ import { chime } from '../audio/chimes.js';
 import { burst } from '../fx/bursts.js';
 import { flash } from '../hud/hud.js';
 import { endSortie } from './session.js';
+import { feedbackStep } from '../feedback/feedback-step.js';
+import { objective } from '../mission/objective.js';
+import { landingField } from '../mission/missions.js';
 
 const STEP = 1 / 120;
 let acc = 0;
@@ -21,6 +24,7 @@ export function stepGame(dt) {
   while (acc >= STEP) { stepFlight(f, controls, STEP, game.time); game.time += STEP; acc -= STEP; }
   const before = s.status, hadLanding = s.landing;
   updateSortie(s, f, dt);
+  feedbackStep(game.feed, f, s, objective(s).target, landingField(s.mission), dt, game.time);
   if (s.justPassed) { chime(game.audio, true); flash(game.hud, `RING ${s.next} ✓`, '#9dffb0', 1.4); s.justPassed = 0; }
   if (s.justMissed) { flash(game.hud, `RING ${s.next} MISSED`, '#ff5a48', 1.6); s.justMissed = 0; }
   if (!hadLanding && s.landing) { burst(game.fx, f.pos, 'dust'); flash(game.hud, `${describeTouchdown(s.landing).toUpperCase()} · ${s.landing.sinkFpm} FT/MIN`, '#ffe9a8', 2.5); }

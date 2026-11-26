@@ -1,17 +1,12 @@
 // Top-right card: the aircraft's state as decisions — will the fuel reach, what is the wind doing, how hurt is it.
-import { AIRCRAFT, MS_TO_KT } from '../core/config.js';
+import { AIRCRAFT } from '../core/config.js';
 import { GREEN, AMBER, RED, panel, row } from './style.js';
-import { headingOf } from '../flight/state.js';
 import { reachVerdict, rangeMetres } from '../flight/fuel-range.js';
+import { windComponents } from '../flight/wind-components.js';
+import { airframeNote } from '../flight/airframe-note.js';
 
 const km = (m) => (m >= 10000 ? `${Math.round(m / 1000)}` : (m / 1000).toFixed(1)) + ' km';
-
-function damageNote(d) {
-  if (d <= 0) return ['AIRFRAME 100% · CLEAN', GREEN];
-  if (d < 20) return [`AIRFRAME ${Math.round(100 - d)}% · DENTED`, GREEN];
-  if (d < 40) return [`AIRFRAME ${Math.round(100 - d)}% · BENT GEAR`, AMBER];
-  return [`AIRFRAME ${Math.round(100 - d)}% · FUEL LEAK`, RED];
-}
+const LEVEL = { ok: GREEN, caution: AMBER, danger: RED };
 
 export function aircraftPanel(g, x, y, flight, target) {
   const w = 260;
@@ -24,15 +19,12 @@ export function aircraftPanel(g, x, y, flight, target) {
     const r = reachVerdict(flight, target.x, target.z);
     row(g, L, y + 76, W, `TO ${target.label}`, `${km(r.dist)} · ${r.verdict}`, r.verdict === 'MAKES IT' ? GREEN : r.verdict === 'TIGHT' ? AMBER : RED);
   }
-  const wk = flight.wind.length() * MS_TO_KT;
-  if (wk > 0.5) {
-    const from = (Math.atan2(-flight.wind.x, flight.wind.z) * 57.3 + 360) % 360;
-    const rel = (from - headingOf(flight)) / 57.3;
-    const head = Math.cos(rel) * wk, cross = Math.sin(rel) * wk;
-    row(g, L, y + 94, W, `WIND ${String(Math.round(from)).padStart(3, '0')}° ${Math.round(wk)} KT`, `${head >= 0 ? 'HEAD' : 'TAIL'} ${Math.abs(Math.round(head))} · X ${Math.abs(Math.round(cross))}`, Math.abs(cross) > 8 ? AMBER : GREEN);
+  const wc = windComponents(flight);
+  if (wc) {
+    row(g, L, y + 94, W, `WIND ${String(Math.round(wc.from)).padStart(3, '0')}° ${Math.round(wc.kt)} KT`, `${wc.head >= 0 ? 'HEAD' : 'TAIL'} ${Math.abs(Math.round(wc.head))} · X ${Math.abs(Math.round(wc.cross))}`, Math.abs(wc.cross) > 8 ? AMBER : GREEN);
   } else row(g, L, y + 94, W, 'WIND', 'CALM', GREEN);
   row(g, L, y + 112, W, 'ENGINE', flight.fuel > 0 ? `${Math.round(700 + flight.throttle * 1900).toLocaleString('en')} RPM` : 'DEAD · GLIDE', flight.fuel > 0 ? GREEN : RED);
   row(g, L, y + 130, W, 'FLAPS · BRAKES', `${Math.round(flight.flaps * 30)}° · ${flight.brakes ? 'ON' : 'OFF'}`, GREEN);
-  const [txt, col] = damageNote(flight.damage);
-  row(g, L, y + 152, W, '', txt, col);
+  const [txt, level] = airframeNote(flight.damage);
+  row(g, L, y + 152, W, '', txt, LEVEL[level]);
 }

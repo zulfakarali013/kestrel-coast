@@ -3,6 +3,7 @@ import { describeTouchdown } from '../mission/landing-grade.js';
 import { landingField } from '../mission/missions.js';
 import { saveBest, starText } from './best-scores.js';
 import { touchdownChart } from './touchdown-chart.js';
+import { touchdownWord } from '../feedback/touchdown-reactions.js';
 
 const clock = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
@@ -27,6 +28,7 @@ export function showDebrief(el, sortie, flight, onRetry, onBoard) {
     <div class="report">
       <h2 class="${ok ? 'ok' : 'bad'}">${ok ? 'SORTIE COMPLETE' : 'SORTIE FAILED'}</h2>
       <div class="why">${sortie.mission.name}: ${sortie.reason}</div>
+      ${sortie.landing ? `<div class="calls"><span class="call ${touchdownWord(sortie.landing.sinkFpm)[1]}">${touchdownWord(sortie.landing.sinkFpm)[0]}</span><span class="call good">${sortie.passed}/${sortie.rings.length} RINGS CLEAN</span><span class="call ${flight.fuel < 15 ? 'caution' : 'good'}">${Math.round(flight.fuel)} L IN THE TANK</span></div>` : ''}
       <table>${rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>
       ${touchdownChart(sortie.landing, landingField(sortie.mission))}
       ${log ? `<h4>FLIGHT LOG</h4><ul class="log">${log}</ul>` : ''}

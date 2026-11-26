@@ -1,7 +1,7 @@
 // The key strip along the bottom: every control in view, with the current camera named.
 import { AMBER, MUTED, PAPER, glowText } from './style.js';
 
-const KEYS = [['W S', 'PITCH'], ['A D', 'ROLL'], ['Q E', 'RUDDER'], ['⇧ ⌃', 'THROTTLE'], ['G V', 'FLAPS'], ['SPACE', 'BRAKES'], ['C', 'VIEW'], ['P', 'PAUSE']];
+const KEYS = [['W S', 'PITCH'], ['A D', 'ROLL'], ['Q E', 'RUDDER'], ['⇧ ⌃', 'THROTTLE'], ['G V', 'FLAPS'], ['SPACE', 'BRAKES'], ['C', 'VIEW'], ['L', 'LEGEND'], ['P', 'PAUSE']];
 
 export function controlsBar(g, cx, y, view) {
   const cw = 86, n = KEYS.length, x0 = cx - (cw * n) / 2;

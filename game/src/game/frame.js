@@ -10,6 +10,10 @@ import { drawHud } from '../hud/hud.js';
 import { objective } from '../mission/objective.js';
 import { handleHotkeys } from './hotkeys.js';
 import { stepGame } from './fixed-step.js';
+import { pilotState } from '../feedback/pilot-state.js';
+import { liveReactions } from '../feedback/reaction-feed.js';
+import { landingField } from '../mission/missions.js';
+import { screenTags } from '../view/screen-tags.js';
 
 let last = performance.now();
 const ROLL = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), 0.35);
@@ -45,7 +49,8 @@ export function frame(now) {
   renderer.render(scene, camera);
   const flying = game.sortie && (game.state === 'flying' || game.state === 'ending');
   const obj = flying ? objective(game.sortie) : { text: '', target: null };
-  drawHud(game.hud, flying ? f : null, flying ? game.sortie : null, game.rig.view, dt, { coast: game.coast, objective: obj.text, target: obj.target });
+  const pilot = flying ? pilotState(f, obj.target, landingField(game.sortie.mission)) : null;
+  drawHud(game.hud, flying ? f : null, flying ? game.sortie : null, game.rig.view, dt, { coast: game.coast, objective: obj.text, target: obj.target, pilot, reactions: liveReactions(game.feed), legend: game.legend, tags: flying ? screenTags(camera, innerWidth, innerHeight, f, game.sortie) : null });
   if (game.paused) pausedCard(game.hud.g);
   updateAudio(game.audio, game.state === 'flying' ? f : null, game.paused);
   if (!game.shot) requestAnimationFrame(frame);
