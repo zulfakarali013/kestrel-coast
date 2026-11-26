@@ -53,6 +53,9 @@ export function updateSortie(s, flight, dt) {
   if (field && flight.onGround && flight.vel.length() < 1 && !onRunway(field, flight.pos.x, flight.pos.z, 30) && s.time > 20 && flight.damage > 0 && s.landing === null && flight.lastTouchdown) {
     return finish(s, 'failed', 'Stopped short of the destination field');
   }
+  if (field && s.airborne && !s.landing && flight.onGround && flight.vel.length() < 1 && flight.lastTouchdown && onRunway(field, flight.pos.x, flight.pos.z, 30)) {
+    return finish(s, 'failed', `Touched down off the edge of ${field.name} runway`);
+  }
   if (!field && s.next >= s.rings.length) return finish(s, 'complete', `All ${s.rings.length} rings flown`);
   if (flight.fuel <= 0 && flight.onGround && flight.vel.length() < 1) return finish(s, 'failed', 'Out of fuel and stranded');
   if (s.time > m.timeLimit) return finish(s, 'failed', 'Ran out of daylight');

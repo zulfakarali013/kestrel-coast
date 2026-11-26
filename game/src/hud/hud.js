@@ -20,6 +20,7 @@ import { drawCallouts } from './callouts.js';
 import { pilotCard } from './pilot-card.js';
 import { legendPanel } from './legend-panel.js';
 import { worldTags } from './world-tags.js';
+import { hudKeepOut } from './hud-keep-out.js';
 
 export { flash } from './callouts.js';
 export { paintCoast } from './minimap.js';
@@ -49,7 +50,7 @@ export function drawHud(hud, flight, sortie, view, dt, extra) {
   const fpa = flight.vel.length() > 3 ? Math.asin(flight.vel.y / flight.vel.length()) : pitch;
 
   if (cockpit) cockpitPanel(g, w, h, flight);
-  if (extra.tags) worldTags(g, extra.tags);
+  if (extra.tags) worldTags(g, extra.tags, hudKeepOut(w, h, cx, cy, cockpit, sortie && extra.legend), w, h);
   pitchLadder(g, cx, cy, pitch, bank, pitch - fpa);
   const slow = kt < AIRCRAFT.stallSpeed * MS_TO_KT * 1.1;
   tape(g, cx - 330, cy, 300, kt, 5, 20, 'KT', -1, slow ? RED : GREEN);

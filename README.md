@@ -91,6 +91,7 @@ from `game/vendor/three.module.min.js` through an import map. Sounds are synthes
 | `src/hud/cockpit-panel.js` | The instrument panel drawn in cockpit view: airspeed, attitude, altitude, heading, climb and fuel. |
 | `src/hud/controls-bar.js` | The key strip along the bottom: every control in view, with the current camera named. |
 | `src/hud/gauges.js` | Bar meters for the HUD and the round lit gauges and attitude ball for the cockpit. |
+| `src/hud/hud-keep-out.js` | Screen rectangles the HUD paints over in each view (tapes, panels, banner, aircraft), so world tags can keep clear of them. |
 | `src/hud/hud.js` | The heads-up display drawn on a 2D canvas over the 3D view: lays out every HUD part for one frame. |
 | `src/hud/legend-panel.js` | The "ON THE ISLAND" legend: what each ring colour, the runway, the approach lights, the arrow and the map marks mean. |
 | `src/hud/legend-symbols.js` | Little symbols for the legend, drawn in the same colours the world and HUD use for the real thing. |
@@ -101,12 +102,13 @@ from `game/vendor/three.module.min.js` through an import map. Sounds are synthes
 | `src/hud/sortie-panel.js` | Top-left card: the sortie's name, clock against par, and its checklist with ticks and misses. |
 | `src/hud/style.js` | The HUD's look: its colours, glowing text and outlined boxes. |
 | `src/hud/system-bars.js` | The four bars bottom-left: throttle, fuel, flaps and hull, each turning amber then red as it matters. |
+| `src/hud/tag-placement.js` | Places world-tag pills so none sits under a HUD tape or panel, over the aircraft, on a ring's rim, or over another tag; a moved pill keeps a pointer line to its place. |
 | `src/hud/tape-readouts.js` | Small readouts under the tapes: height above ground and climb rate on the right, g-load and angle of attack on the left. |
 | `src/hud/tapes.js` | Speed and altitude tapes and the heading tape. |
 | `src/hud/target-arrow.js` | The arrow that points to the next ring or the destination runway, with its distance. |
 | `src/hud/warnings.js` | Flashing warnings: stall, fuel, sink rate near the ground, overspeed, brakes. |
 | `src/hud/windscreen.js` | The K-2's windscreen seen from the left seat: roof bow, two corner pillars and the glareshield lip. |
-| `src/hud/world-tags.js` | World tags in the HUD: a small labelled pill with a pointer line above each named place the camera can see. |
+| `src/hud/world-tags.js` | World tags in the HUD: a small labelled pill with a pointer line above each named place the camera can see, kept clear of the HUD. |
 | `src/input/controls.js` | Keyboard and mouse into one set of controls: stick, rudder, throttle and brakes. |
 | `src/input/keyboard.js` | Which keys are held and which were just pressed. |
 | `src/mission/approach-slope.js` | The approach geometry to a runway: glide angle against the 3° aim, the word for it, and the centreline offset. |
@@ -130,7 +132,7 @@ from `game/vendor/three.module.min.js` through an import map. Sounds are synthes
 | `src/shots/pose-cover.js` | Cover pose: First Light, four rings flown, on the 3° slope 180 m behind the final gate with runway 07 ahead. |
 | `src/shots/pose-helpers.js` | Helpers every screenshot pose shares: write the rings already flown into a sortie, and point the aircraft. |
 | `src/shots/pose-landing.js` | Landing pose: Lighthouse Mail flown and landed at Gull Island — the plane on the runway, the debrief beside it. |
-| `src/shots/pose-ridge.js` | Ridge pose: Ridge Run, three rings flown, banking hard toward ring 4 (the Saddle) along the mountain. |
+| `src/shots/pose-ridge.js` | Ridge pose: Ridge Run, eight rings flown, running down off the ridges toward ring 9 (Home gate) with the east coast ahead. |
 | `src/shots/poses.js` | Screenshot poses: ?shot=board\|cover\|cockpit\|ridge\|landing puts the game in a fixed moment so the maker's |
 | `src/sky/clouds.js` | Clusters of soft cloud puffs at 900 to 1,400 m. |
 | `src/sky/sky-dome.js` | Sky dome with the low sun, haze and the hemisphere and sun lights. |

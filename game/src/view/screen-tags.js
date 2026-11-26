@@ -21,6 +21,13 @@ export function screenTags(camera, w, h, flight, sortie) {
   if (sortie && sortie.next < sortie.rings.length) {
     const r = sortie.rings[sortie.next], name = ringName(sortie.mission, sortie.next);
     if (name) put(r.x, r.y + r.radius + 6, r.z, name.toUpperCase(), 'ring', 3000);
+    const last = tags[tags.length - 1];
+    if (last && last.kind === 'ring') {
+      v.set(r.x, r.y, r.z).project(camera);
+      const d = camera.position.distanceTo(new THREE.Vector3(r.x, r.y, r.z));
+      const px = r.radius / Math.max(d, 1) * (h / 2) / Math.tan(camera.fov * Math.PI / 360);
+      last.ring = { cx: (v.x + 1) / 2 * w, cy: (1 - v.y) / 2 * h, r: px };
+    }
   }
   return tags;
 }
